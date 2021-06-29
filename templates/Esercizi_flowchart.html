@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LearnFlow</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <link href="../static/css/transalte_btn.css" rel="stylesheet">
+
+    <!-- miei -->
+    <link href="../static/css/stylesheet.css" rel="stylesheet">
+    <script src="../static/js/cookie_handler.js" ></script>
+
+</head>
+
+<body onload="assign_page()">
+<div id="imported_var" style="display: none">
+    <p id="usr"> {{ username }} </p>
+    <p id="pnt"> {{ pnt }} </p>
+</div>
+
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light ">
+
+    <div class="container-fluid">
+        <div id="lines"></div>
+
+        <div class="justify-content-start">
+            <a class="navbar-brand" href="#">
+                <h2 class="h1" translate="no"> LearnFlow </h2>
+            </a>
+        </div>
+
+        <div class="nav-item mt-3">
+            <div id="google_translate_element">
+            </div>
+        </div>
+
+        <div class="" >
+            <button class="navbar-toggler dropdown"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#infox">
+                <i class="fas fa-user"></i>
+            </button>
+
+            <div class="collapse navbar-collapse text-right" id="infox">
+                <ul class="navbar-nav ml-auto my-auto">
+
+                    <li class="nav-item my-auto ml-4">
+                        <div class="m-auto">
+                            <h1 id="put_username" class="nav-link" style="color: #049dff;" translate="no"> </h1>
+                        </div>
+                    </li>
+
+                    <li>
+                        <hr>
+                    </li>
+
+                    <li class="nav-item my-auto ml-4">
+                        <div class=" row justify-content-center input-group-append mb-2">
+                            <h4 class="my-auto mr-2">Score </h4>
+                            <h2 class="my-auto" id="put_pnt" style="color: #049dff;"> - </h2>
+                        </div>
+                    </li>
+
+                    <li class="nav-item my-auto ml-4">
+                        <div class="">
+                            <button type="button" class="btn btn-success btn-danger" onclick="exit_user_2()">
+                                Click to exit
+                            </button>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<br>
+
+<!-- contenuto -->
+<div class="container">
+
+    <div class="row">
+        <div id="esercizio" class="col-12 justify-content-center my-2 text-center">
+
+            <h1>
+                Exercise Flow-Chart {{ es }}
+            </h1>
+
+            <h5>
+                Compose correctly the Flow-Chart
+            </h5>
+
+            <h4 id="testo"></h4>
+
+        </div>
+    </div>
+
+
+<!-- contenuto -->
+    <div id="container" class="container">
+
+
+        <div id ="items" class="row justify-content-center my-2 text-center ombra2">
+    <!-- INSERISCI IN ORDINE SCORRETTO GLI OGGETTI -->
+        </div>
+
+        <div id="todrop" class="row justify-content-center my-2 text-center ombra2"></div>
+
+    </div>
+
+    <!--RENDILE INVISIBILI A CONVENIENZA [se c'è o no un altro (tipo di) esercizio]-->
+    <div class="row p-2 justify-content-around">
+        <div  id = "back" class="col-4 m-2 text-center container-fluid">
+            <div class="">
+                    <button type="button" class="btn btn-success" onclick="load_back()">
+                      <h4>BACK</h4>
+                    </button>
+            </div>
+        </div>
+        <div  id = "next" class="col-4 m-2 text-center container-fluid ">
+            <div class="">
+                <button type="button" class="btn btn-success" onclick="load_next()">
+                  <h4>NEXT</h4>
+                </button>
+            </div>
+        </div>
+        <div  id = "finish" class="col-4 m-2 text-center container-fluid " style="display: none">
+            <div class="">
+                 <a href="">
+                    <button type="button" class="btn btn-success">
+                      <h4>FINISH</h4>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .droppable { width: 200px; height: 100px; padding: 0.5em; float: left; margin: 10px; clear: both;}
+</style>
+
+
+
+<p style="display: none;" id="exercise">  </p>
+<script src="../static/js/js.js"></script>
+
+<script>
+    load2({{data | tojson | safe}},{{ ex }})
+</script>
+
+
+<script>
+    console.log("script2")
+    $( window ).on( "load", function() {
+        load()
+        if(data[{{ex}}+1]==null){
+            $("#next").attr("style","display: none")
+            $("#finish").attr("style","display: block")
+            console.log("finiti")
+        }
+        if(data[{{ex}}-1]==null){
+            $("#back").attr("style", "display: none")
+        }
+        });
+</script>
+
+
+</body>
+
+<!--<button onclick="check()">linea</button>-->
+
+
+</html>
